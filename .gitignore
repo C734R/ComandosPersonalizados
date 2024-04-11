@@ -1,0 +1,4 @@
+MenuPrincipal.exe
+.vscode/settings.json
+build/Debug/MenuPrincipal.o
+build/Debug/outDebug.exe
