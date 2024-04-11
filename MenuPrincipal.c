@@ -14,7 +14,7 @@ void insertarFechaHora() {
     // Declaramos un puntero de tipo FILE para trabajar con archivos
     FILE *archivo;
     // Declarar la ruta del archivo
-    char ruta[MAX_FILENAME_LENGTH];
+    char ruta[100];
     strcpy(ruta, "C:/TEMP/producto2.txt");
     // Ruta donde se guardará el archivo
     archivo = fopen(ruta, "at+");
@@ -31,17 +31,19 @@ void insertarFechaHora() {
         // Mover el puntero al principio del archivo
         rewind(archivo);
         char texto[100];
-        // Mientras no encontremos el texto "Fecha y hora:"
+        // Mientras no encuentre el texto "Fecha y hora:"
         do{
+            long *puntero;
             // Leer una línea del archivo
             fgets(texto, sizeof(texto), archivo);
+            puntero = strstr(texto, "Fecha y hora:");
             // Comprobar si la línea contiene el texto "Fecha y hora:"
-            if (strstr(texto, "Fecha y hora:") != NULL) {
-                
+            if (puntero != NULL) {
                 // Mover el puntero al inicio de la línea que contiene el texto "Fecha y hora:"
-                fseek(archivo, 0, strstr(texto, "Fecha y hora:"));
-                fflush(archivo);
+                fseek(archivo, (long)puntero, SEEK_SET);
+                // Borrar el contenido de la línea
                 fprintf(archivo, "PruebaOK.\n");
+                fflush(archivo);
                 break;
             }
         } 
@@ -125,7 +127,7 @@ int main() {
                 mostrarAdaptadores();
                 break;
             case 0:
-                printf("Saliendo...\n");
+                printf("Saliendo de la aplicación...\n");
                 break;
             default:
                 printf("Opción inválida. Por favor, seleccione una opción válida.\n\n");
