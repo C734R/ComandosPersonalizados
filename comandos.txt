@@ -10,6 +10,11 @@ scanf([tipo_dato], &[variable]) - Escanear entrada por teclado
 // FILE *
 FILE *[variable_fichero] - Puntero tipo FILE 
 
+//fscanf() - Lee un archivo
+fscanf(FILE *[nombre_puntero], [tipo_dato], &[variable_buscar]);
+ejemplo:
+fscanf(fichero, "%d", &numero);
+
 // fopen() - Abre el archivo de la ruta y modos indicados por parámetros
 [variable_fichero] = fopen([ruta_fichero], [parametro_tipo_apertura]);
     r - Abre archivo existente para lectura.
@@ -52,4 +57,4 @@ fseek(FILE *[nombre_puntero], [variable_posicion], [variable_origen]);
 [variable_cadena] = strcat([string1], [string2])
 
 // strstr() - Buscar una cadena dentro de otra
-FILE *[variable_fichero] = strstr([string1], [string2])
+char *[puntero_coincidencia] = strstr([string1], [string2])
