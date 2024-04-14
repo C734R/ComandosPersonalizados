@@ -43,7 +43,7 @@ fputc([variable_caracter], [FILE *[nombre_puntero]]);
 fputs([variable_cadena], FILE *[variable_fichero])
 
 //fseek() - Mover el puntero de archivo a la posición indicada
-fseek(FILE *[nombre_puntero], [variable_posicion], [variable_origen]);
+fseek(FILE *[variable_fichero], [variable_posicion], [variable_origen]);
     SEEK_SET - Inicio del archivo
     SEEK_CUR - Posición actual
     SEEK_END - Final del archivo
