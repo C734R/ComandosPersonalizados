@@ -1,9 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
 #include <windows.h>
+#include <regex.h>
+
 
 // Declaración de funciones
 bool abrirArchivo(char *rutaParam, char *modoParam, FILE **archivoParam);
@@ -283,13 +286,12 @@ void copiarAdaptadorRed(FILE *archivoParam) {
         while (fgets(lectura, sizeof(lectura), consola) != NULL) {
             printf("%s", lectura);
         }
+        // Limpiar consola
         consola = _popen("cls", "r");
         // Añadir un separador por pantalla
         printf("-----------------------------------\n\n");
-        
         // Pedir el nombre del adaptador de red
         printf("Introduce el nombre del adaptador de red del que quieres guardar su información: ");
-        
         // Vaciar el buffer de entrada
         vaciarEntrada();
         // Leer el nombre del adaptador de red
@@ -383,10 +385,16 @@ void addAdaptadorRed(FILE *archivoParm) {
     char respuesta [100];
     bool bAdaptador = false;
     FILE *consola = NULL;
+    regex_t regex;
+
+    if(regcomp(&regex, "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$",0) != 0){
+        // Mostrar un mensaje de error
+        printf("Error al compilar la expresión regular.\n");
+        return;
+    }
 
     // Mientras el nombre de adaptador introducido exista
     while (1){
-        strcpy(respuesta, "");
         // Definimos el comando a ejecutar para obtener los adaptadores de red
         sprintf(comando,"ipconfig | findstr /C:\"Adaptador\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i");
         // Ejecutar el comando definido
@@ -407,16 +415,22 @@ void addAdaptadorRed(FILE *archivoParm) {
             while (fgets(lectura, sizeof(lectura), consola) != NULL) {
                 printf("%s", lectura);
             }
-            // Cerrar la conexión con el comando ipconfig
-            _pclose(consola);
+            // Limpiar consola
+            consola = _popen("cls", "r");
             // Añadir un separador por pantalla
             printf("-----------------------------------\n\n");
             // Pedir el nombre del adaptador de red
             printf("Introduce el nombre del adaptador de red que quieres añadir: ");
-            scanf("%s", respuesta);
+            // Vaciar el buffer de entrada
             vaciarEntrada();
-            // Comando para localizar el nombre del adaptador de red
-            sprintf(comando, "ipconfig | findstr /C:\"Adaptador de Ethernet %s\" /C:\"Adaptador de LAN inalámbrica %s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i", respuesta, respuesta);
+            // Leer el nombre del adaptador de red
+            fgets(respuesta, 100, stdin);
+            // Eliminar el salto de línea
+            respuesta[strlen(respuesta) - 1] = '\0';
+            // Mostrar un mensaje de éxito
+            printf("Adaptador de red introducido: %s\n", respuesta);
+            // Crear el comando para obtener la información del adaptador de red que coincida con la IP, la máscara y la puerta de enlace introducidas
+            sprintf(comando, "ipconfig | findstr /C:\"%s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i", respuesta);
             // Ejecutar el comando definido
             consola = _popen(comando, "r");
             // Si no se ha podido ejecutar el comando ipconfig
@@ -430,54 +444,99 @@ void addAdaptadorRed(FILE *archivoParm) {
                 // Mostrar un mensaje de éxito
                 printf("Comando ipconfig ejecutado con éxito.\n\n");
                 // Recorerr las líneas de la salida del comando ipconfig
-                if (fgets(lectura, sizeof(lectura), consola) != NULL) {
-                    // Si el adaptador ya existe
-                    if (strstr(lectura, respuesta) != NULL) {
-                        // Mostrar un mensaje de error
-                        printf("El adaptador ya existe. Introduce otro nombre.\n\n");
-                        // Cerrar la conexión con el comando ipconfig
-                        _pclose(consola);
+                while (fgets(lectura, sizeof(lectura), consola) != NULL) {
+                    // Detectar el inicio de un bloque de adaptador
+                    if (strstr(lectura, "Adaptador de Ethernet") != NULL || strstr(lectura, "Adaptador de LAN inal") != NULL){
+                        // Verificar si encontramos el adaptador solicitado
+                        if (strstr(lectura, respuesta) != NULL) {
+                            // Mostrar un mensaje de error
+                            printf("El adaptador ya existe. Introduce otro nombre.\n\n");
+                            // Registramos que el adaptador ya existe
+                            bAdaptador = false;
+                            // Salir del bucle
+                            break;
+                        }
                     }
+                    else {
+                        // Registramos que no existe el adaptador
+                        bAdaptador = true;
+                    }   
                 }
-                else {
-                    // Añadir separador en el archivo
-                    fprintf(archivoParm, "-----------------------------------\n\n");
-                    // Registrar el nombre del adaptador en el archivo adaptador.txt
-                    fprintf(archivoParm, "Adaptador de Red %s\n", respuesta);
-                    // Añadir un separador en el archivo
-                    fprintf(archivoParm, "-----------------------------------\n\n");
-                    // Mostrar un mensaje de éxito
-                    printf("Nombre del adaptador registrado con éxito.\n\n");
-                    // Cerrar la conexión con el comando ipconfig
-                    _pclose(consola);
-                    // Registrar que el adaptador se ha registrado
-                    bAdaptador = true;
-                    // Salir del bucle
-                    break;
-                }
-            }
+                // Cerrar la conexión con el comando ipconfig
+                _pclose(consola);
+            }   
         }
     }
-    // Si se ha registrado un adaptador
+    
+    // Si no existe el adaptador
     if (bAdaptador){
-        // Solicitar la IP, la máscara y la puerta de enlace
-        printf("Introduce la IP: ");
-        scanf("%s", respuesta);
-        vaciarEntrada();
-        // Registrar la IP en el archivo adaptador.txt
-        fprintf(archivoParm, "Dirección IPv4: %s\n", respuesta);
-        // Solicitar la máscara
-        printf("Introduce la máscara de subred: ");
-        scanf("%s", respuesta);
-        vaciarEntrada();
-        // Registrar la máscara en el archivo adaptador.txt
-        fprintf(archivoParm, "Máscara: %s\n", respuesta);
-        // Solicitar la puerta de enlace
-        printf("Introduce la puerta de enlace: ");
-        scanf("%s", respuesta);
-        vaciarEntrada();
-        // Registrar la puerta de enlace en el archivo adaptador.txt
-        fprintf(archivoParm, "Puerta de enlace: %s\n", respuesta);
+        // Añadir separador en el archivo
+        fprintf(archivoParm, "-----------------------------------\n\n");
+        // Registrar el nombre del adaptador en el archivo adaptador.txt
+        fprintf(archivoParm, "Adaptador de Red %s\n", respuesta);
+        // Añadir un separador en el archivo
+        fprintf(archivoParm, "-----------------------------------\n\n");
+        // Mostrar un mensaje de éxito
+        printf("Nombre del adaptador registrado con éxito.\n\n");
+
+        // Mientras los carácteres introducidos no cumplan con el formato de una IP
+        while (1){
+            // Solicitar la IP, la máscara y la puerta de enlace
+            printf("Introduce la IP: ");
+            // Vaciar el buffer de entrada
+            vaciarEntrada();
+            fgets(respuesta, 16, stdin);
+            // Comprobar si la IP introducida es válida
+            respuesta[strlen(respuesta) - 1] = '\0';
+            if (regexec(&regex, respuesta,0,NULL, 0) != 0){
+                // Mostrar un mensaje de error
+                printf("La IP introducida no es válida. Introduce una IP válida.\n");
+            }
+            // Si la IP es válida, salir del bucle
+            else {
+                // Registrar la IP en el archivo adaptador.txt
+                fprintf(archivoParm, "Dirección IPv4: %s\n", respuesta);
+                break;
+            }
+        }
+        while (1){
+            // Solicitar la máscara
+            printf("Introduce la máscara de subred: ");
+            // Vaciar el buffer de entrada
+            vaciarEntrada();
+            fgets(respuesta, 100, stdin);
+            // Comprobar si la máscara introducida es válida
+            respuesta[strlen(respuesta) - 1] = '\0';
+            if (regexec(&regex, respuesta,0,NULL, 0) != 0){
+                // Mostrar un mensaje de error
+                printf("La máscara introducida no es válida. Introduce una máscara válida.\n");
+            }
+            // Si la máscara es válida, salir del bucle
+            else {
+                // Registrar la máscara en el archivo adaptador.txt
+                fprintf(archivoParm, "Máscara: %s\n", respuesta);
+                break;
+            }
+        }
+        while (1){
+            // Solicitar la puerta de enlace
+            printf("Introduce la puerta de enlace: ");
+            // Vaciar el buffer de entrada
+            vaciarEntrada();
+            fgets(respuesta, 100, stdin);
+            // Comprobar si la puerta de enlace introducida es válida
+            respuesta[strlen(respuesta) - 1] = '\0';
+            if (regexec(&regex, respuesta,0,NULL, 0) != 0){
+                // Mostrar un mensaje de error
+                printf("La puerta de enlace introducida no es válida. Introduce una puerta de enlace válida.\n");
+            }
+            // Si la puerta de enlace es válida, salir del bucle
+            else {
+                // Registrar la puerta de enlace en el archivo adaptador.txt
+                fprintf(archivoParm, "Puerta de enlace: %s\n", respuesta);
+                break;
+            }
+        }
         // Añadir un separador en el archivo
         fprintf(archivoParm, "-----------------------------------\n\n");
         // Volver al inicio del archivo
@@ -522,6 +581,71 @@ void vaciarEntrada () {
         c = getchar();
     } 
     while (c != EOF && c != '\n');
+}
+
+// Función para validar una dirección IP
+bool validarIP(const char *ip) {
+    int num, puntos = 0;
+    const char *ip_temporal = ip;
+
+    // Comprobar si la IP es nula
+    if (ip == NULL) {
+        return false;
+    }
+
+    // Comprobar si la IP es válida
+    while (*ip_temporal) {
+        // Comprobar si el carácter actual es un punto
+        if (*ip_temporal == '.') {
+            // Si hay más de 3 puntos, la IP no es válida
+            if (ip == ip_temporal || puntos == 3) {
+                // Si es igual, la IP no es válida
+                return false;  
+            }
+            // Incrementar el contador de puntos
+            ip = ip_temporal + 1; 
+            // 
+            puntos++;
+        } 
+        // Si el carácter actual no es un número entre 0 y 9
+        else if (!(*ip_temporal >= '0' && *ip_temporal <= '9')) { 
+            // La IP no es válida
+            return false;
+        }
+        // Incrementar la ip temporal
+        ip_temporal++;
+    }
+    // Si no hay 3 puntos
+    if (puntos != 3) {  
+        // La IP no es válida
+        return false;
+    }
+
+    // Si el último carácter es un punto
+    if (*(ip_temporal - 1) == '.') {
+        // La IP no es válida
+        return false;  
+    }
+
+    // Para cada uno de las 4 cifras de la IP    
+    for (int i = 0; i < 4; i++) {
+        // Convertir la cifra en carácteres a un número
+        num = atoi(ip);
+        // Comprobar si el número está entre 0 y 255
+        if (num < 0 || num > 255) {
+            // Si no está en el rango, la IP no es válida
+            return false;  
+        }
+        // Mover la IP a la siguiente cifra
+        ip = strchr(ip, '.');
+        // Si la ip no es nula
+        if (ip != NULL) {
+            // Mover la IP al siguiente octeto
+            ip++;  
+        }
+    }
+    // Si todos los octetos son válidos, la IP es válida
+    return true;
 }
 
 // Programa principal

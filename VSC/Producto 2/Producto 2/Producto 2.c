@@ -1,16 +1,18 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <iostream>
 #include <stdbool.h>
+#include <windows.h>
 
 // Declaración de funciones
 bool abrirArchivo(char* rutaParam, char* modoParam, FILE** archivoParam);
 void insertarFechaHora(FILE* archivo);
-void comprobarIPs(FILE* archivoParam);
-void adaptadorRed(FILE* archivoParam);
-void vaciarArchivo(FILE* archivoParam);
+void comprobarIPs(FILE* archivoParam, char* rutaParam);
+void copiarAdaptadorRed(FILE* archivoParam);
+void addAdaptadorRed(FILE* archivoParam);
+void vaciarEntrada();
 
 // Insertar la fecha y la hora en el documento de salida: producto2.txt (Especificar en la memoria donde se genera dicho archivo) (Menú punto 1)
 void insertarFechaHora(FILE* archivoParam) {
@@ -31,16 +33,6 @@ void insertarFechaHora(FILE* archivoParam) {
     printf("Fecha y hora insertadas en el archivo.\n\n");
 }
 
-void vaciarArchivo(FILE* archivoParam) {
-
-    // Vaciar el archivo (reducir a 0 bytes)
-    ftruncate(fileno(archivoParam), 0);
-    // Mostrar un mensaje de éxito
-    printf("Archivo vaciado con éxito.\n\n");
-
-}
-
-
 
 // -- Comprobar e informar por pantalla sobre cuáles de una lista de máquinas referenciadas 
 // por su IP escrita en un archivo de texto, contestan positivamente a un ping lanzado por la 
@@ -54,7 +46,7 @@ void vaciarArchivo(FILE* archivoParam) {
 // -- Se almacenará el resultado del paso anterior debajo de la fecha y la hora en el archivo 
 // producto2.txt, las IPs que han dado una respuesta positiva. Guardar el archivo y no borrar. (Menú punto 2)
 
-void comprobarIPs(FILE* archivoParam) {
+void comprobarIPs(FILE* archivoParam, char* rutaParam) {
 
     // Declaración de variables
     char ip[16];
@@ -68,9 +60,64 @@ void comprobarIPs(FILE* archivoParam) {
     // Declaramos array para almacenar las IPs que responden al ping
     char ipPositivas[10][16];
 
-    // Pedimos al usuario la ruta del archivo que contiene las IPs
-    printf("Introduce la ruta del archivo que contiene las IPs a testear: ");
-    scanf("%s", ruta);
+    while (1) {
+        // Pedimos al usuario la ruta del archivo que contiene las IPs
+        printf("Introduce la ruta del archivo que contiene las IPs a testear: ");
+        scanf("%s", ruta);
+        vaciarEntrada();
+        // Comprobamos si el fichero indicado existe
+        if (fopen(ruta, "r") == NULL) {
+            // Si no existe, mostramos un mensaje de error
+            printf("El archivo no existe. ¿Quieres crearlo e introducir las IP? (s = sí, otro = no) ");
+            // Si el usuario no quiere crear el archivo, salir del bucle
+            if (getchar() != 's') {
+                break;
+            }
+            // Si el usuario quiere crear el archivo
+            else {
+                // Lo abrimos en modo escritura para crearlo
+                archivoIPs = fopen(ruta, "w");
+                // Si no se ha podido abrir el archivo
+                if (archivoIPs == 0) {
+                    // Mostrar un mensaje de error
+                    printf("Error al abrir el archivo ubicado en la ruta : %s\n", ruta);
+                    // Salir del bucle
+                    break;
+                }
+                // Si se ha podido abrir el archivo
+                else {
+                    // Mostrar un mensaje de éxito
+                    printf("Archivo creado con éxito.\n\n");
+                    while (1) {
+                        // Pedir al usuario que introduzca las IPs a testear
+                        printf("Introduce la IP a testear (o 'fin' para terminar): ");
+                        scanf("%s", ip);
+                        vaciarEntrada();
+                        // Si el usuario introduce 'fin', salir del bucle
+                        if (strcmp(ip, "fin") == 0) {
+                            // Salir del bucle
+                            break;
+                        }
+                        // Escribir la IP en el archivo
+                        fprintf(archivoIPs, "%s\n", ip);
+                    }
+                    // Mostrar un mensaje de éxito
+                    printf("IPs introducidas en el archivo.\n\n");
+                    // Cerrar el archivo
+                    fclose(archivoIPs);
+                    // Salir del bucle
+                    break;
+                }
+            }
+        }
+        // Si el archivo existe
+        else {
+            // Si existe, mostramos un mensaje de éxito
+            printf("Archivo encontrado.\n\n");
+            // Salimos del bucle
+            break;
+        }
+    }
 
     // Abrir el archivo en modo lectura
     archivoIPs = fopen(ruta, "r");
@@ -110,7 +157,8 @@ void comprobarIPs(FILE* archivoParam) {
             // Ejecutar el comando ping
             FILE* ping = _popen(comando, "r");
             // Esperar antes de leer la respuesta
-            sleep(1);
+
+            Sleep(1000);
             // Mientras haya respuesta del comando ping
             while (fgets(lectura, sizeof(lectura), ping) != NULL) {
                 // Concatenar la respuesta con la IP
@@ -154,46 +202,49 @@ void comprobarIPs(FILE* archivoParam) {
     fread(contenido, 1, (size_t)tam_archivo, archivoParam);
     // Añadir un carácter nulo al final del contenido, emulando el fin de cadena
     contenido[tam_archivo] = '\0';
-    // Vaciar el archivo (reducir a 0 bytes)
-    if (ftruncate(fileno(archivoParam), 0) != 0) {
+    // Vaciar el archivo abriéndolo en modo escritura
+    freopen(rutaParam, "w", archivoParam);
+    if (archivoParam == 0) {
         // Informar del error
-        printf("Error al vaciar el archivo.\n");
+        printf("Error al vaciar el archivo ubicado en la ruta : %s\n", rutaParam);
         // Liberar la memoria reservada para el contenido
         free(contenido);
         // Salir de la función
         return;
     }
+    else {
+        // Mostrar un mensaje de éxito
+        printf("Archivo vaciado con éxito.\n\n");
+        // Añadir un separador al inicio de la entrada
+        fprintf(archivoParam, "-----------------------------------\n");
+        // Insertamos la fecha y hora en el archivo
+        insertarFechaHora(archivoParam);
+        // Añadimos un título al archivo
+        fprintf(archivoParam, "---- IPs que responden al ping ----\n");
+        // Recorremos el array de IPs positivas 
+        for (int i = 0; i < numIPs; i++) {
+            // Y las escribimos en el archivo
+            fprintf(archivoParam, "%s\n", ipPositivas[i]);
+        }
+        // Añadir un separador al final de la entrada
+        fprintf(archivoParam, "-----------------------------------\n");
 
-    // Añadir un separador al inicio de la entrada
-    fprintf(archivoParam, "-----------------------------------\n");
-    // Insertamos la fecha y hora en el archivo
-    insertarFechaHora(archivoParam);
-    // Añadimos un título al archivo
-    fprintf(archivoParam, "---- IPs que responden al ping ----\n");
-    // Recorremos el array de IPs positivas 
-    for (int i = 0; i < numIPs; i++) {
-        // Y las escribimos en el archivo
-        fprintf(archivoParam, "%s\n", ipPositivas[i]);
-    }
-    // Añadir un separador al final de la entrada
-    fprintf(archivoParam, "-----------------------------------\n");
+        // Escribir el contenido al final del archivo
+        fseek(archivoParam, 0, SEEK_END);
+        if (fwrite(contenido, 1, (size_t)tam_archivo, archivoParam) != (size_t)tam_archivo) {
+            // Informar del error
+            printf("Error al escribir el contenido en el archivo.\n\n");
+            // Liberar la memoria reservada para el contenido
+            free(contenido);
+            // Salir de la función
+            return;
+        }
 
-    // Escribir el contenido al final del archivo
-    fseek(archivoParam, 0, SEEK_END);
-    if (fwrite(contenido, 1, (size_t)tam_archivo, archivoParam) != (size_t)tam_archivo) {
-        // Informar del error
-        printf("Error al escribir el contenido en el archivo.\n\n");
         // Liberar la memoria reservada para el contenido
         free(contenido);
-        // Salir de la función
-        return;
+        // Mostrar un mensaje de éxito
+        printf("Archivo producto2.txt actualizado con las IPs que han dado respuesta.\n\n");
     }
-
-    // Liberar la memoria reservada para el contenido
-    free(contenido);
-    // Mostrar un mensaje de éxito
-    printf("Archivo producto2.txt actualizado con las IPs que han dado respuesta.\n\n");
-
 }
 
 // Diseñar una función cuya funcionalidad que muestre los adaptadores de red de la máquina local. 
@@ -204,13 +255,15 @@ void comprobarIPs(FILE* archivoParam) {
 // que necesita junto con otra que no se considera relevante, y será capaz de extraer y mostrar 
 // la que se ha detallado. (menú punto3)*/
 
-void adaptadorRed(FILE* archivoParam) {
+void copiarAdaptadorRed(FILE* archivoParam) {
 
     // Declaración de variables
-    char comando[200];
+    char comando[1024];
     char lectura[1024];
     char adaptador[100];
+    bool dentroBloque = false;
     FILE* consola = NULL;
+    int i = 0;
 
     // Definimos el comando a ejecutar para obtener los adaptadores de red
     sprintf(comando, "ipconfig | findstr /C:\"Adaptador\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i");
@@ -231,17 +284,24 @@ void adaptadorRed(FILE* archivoParam) {
         while (fgets(lectura, sizeof(lectura), consola) != NULL) {
             printf("%s", lectura);
         }
-        // Cerrar la conexión con el comando ipconfig
-        _pclose(consola);
+        consola = _popen("cls", "r");
         // Añadir un separador por pantalla
         printf("-----------------------------------\n\n");
 
         // Pedir el nombre del adaptador de red
         printf("Introduce el nombre del adaptador de red del que quieres guardar su información: ");
-        scanf("%s", adaptador);
+
+        // Vaciar el buffer de entrada
+        vaciarEntrada();
+        // Leer el nombre del adaptador de red
+        fgets(adaptador, 100, stdin);
+        // Eliminar el salto de línea
+        adaptador[strlen(adaptador) - 1] = '\0';
+        // Mostrar un mensaje de éxito
+        printf("Adaptador de red introducido: %s\n", adaptador);
 
         // Crear el comando para obtener la información del adaptador de red que coincida con la IP, la máscara y la puerta de enlace introducidas
-        sprintf(comando, "ipconfig | findstr /C:\"Adaptador de ethernet %s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i", adaptador);
+        sprintf(comando, "ipconfig | findstr /C:\"%s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i", adaptador);
         // Ejecutar el comando definido
         consola = _popen(comando, "r");
         // Si no se ha podido ejecutar el comando ipconfig
@@ -253,51 +313,185 @@ void adaptadorRed(FILE* archivoParam) {
         else {
             // Mostrar un mensaje de éxito
             printf("Comando ipconfig ejecutado con éxito.\n\n");
-
-            printf("--- Datos del adaptador guardado ---\n");
-
+            // Inicializar contador
+            i = 0;
             // Mientras haya respuesta del comando ipconfig
             while (fgets(lectura, sizeof(lectura), consola) != NULL) {
-
-                if (strstr(lectura, "Adaptador") != NULL) {
-                    // Mostrar la línea
-                    printf("%s", lectura);
-                    // Escribir la información en el archivo adaptador.txt
-                    fprintf(archivoParam, "%s", lectura);
+                // Detectar el inicio de un bloque de adaptador
+                if (strstr(lectura, "Adaptador de Ethernet") != NULL || strstr(lectura, "Adaptador de LAN inal") != NULL) {
+                    // Verificar si es el bloque del adaptador solicitado
+                    if (strstr(lectura, adaptador) != NULL) {
+                        // Mostrar encabezado
+                        printf("--- Datos del adaptador guardado ---\n");
+                        // Establecer que estamos dentro del bloque del adaptador
+                        dentroBloque = true;
+                        // Añadir un separador en el archivo
+                        fprintf(archivoParam, "-----------------------------------\n");
+                        // Añadir un título en el archivo
+                        fprintf(archivoParam, "--- Datos del adaptador guardado ---\n");
+                        // Escribir la información en el archivo adaptador.txt
+                        fprintf(archivoParam, "%s", lectura);
+                        // Mostrar la línea por pantalla
+                        printf("%s", lectura);
+                        i++;
+                    }
+                    // Si no es el bloque del adaptador solicitado
+                    else {
+                        // Establecer que no estamos dentro del bloque del adaptador
+                        dentroBloque = false;
+                    }
                 }
-
-                // Si la línea contiene la palabra "Dirección IP" y coincide con la IP introducida
-                if (strstr(lectura, "IPv4") != NULL) {
-                    // Mostrar la línea
-                    printf("%s", lectura);
-                    // Escribir la información en el archivo adaptador.txt
-                    fprintf(archivoParam, "%s", lectura);
-                }
-                // Si la línea contiene la palabra "Máscara de subred" y coincide con la máscara de subred introducida
-                if (strstr(lectura, "subred") != NULL) {
-                    // Mostrar la línea
-                    printf("%s", lectura);
-                    // Escribir la información en el archivo adaptador.txt
-                    fprintf(archivoParam, "%s", lectura);
-                }
-                // Si la línea contiene la palabra "Puerta de enlace predeterminada" y coincide con la puerta de enlace introducida
-                if (strstr(lectura, "enlace") != NULL) {
-                    // Mostrar la línea
-                    printf("%s", lectura);
-                    // Escribir la información en el archivo adaptador.txt
-                    fprintf(archivoParam, "%s", lectura);
-                    break;
+                // Si estamos dentro del bloque del adaptador
+                if (dentroBloque) {
+                    // Si la línea contiene información relevante
+                    if (strstr(lectura, "IPv4") != NULL || strstr(lectura, "subred") != NULL || strstr(lectura, "enlace") != NULL) {
+                        // Escribir la información en el archivo adaptador.txt
+                        fprintf(archivoParam, "%s", lectura);
+                        // Mostrar la línea
+                        printf("%s", lectura);
+                        i++;
+                        if (i == 4) {
+                            break;
+                        }
+                    }
                 }
             }
-            // Mostrar un separador por pantalla
-            printf("-----------------------------------\n\n");
+            if (i == 0) {
+                // Mostrar un mensaje de error
+                printf("El adaptador introducido no existe.\n");
+            }
+            else {
+                // Añadir un separador en el archivo
+                fprintf(archivoParam, "-----------------------------------\n\n");
+                // Mostrar separador por pantalla
+                printf("-----------------------------------\n\n");
+                // Mostrar un mensaje de éxito
+                printf("Información del adaptador de red guardada en adaptador.txt.\n\n");
+            }
             // Cerrar el archivo
             fclose(archivoParam);
             // Cerrar la conexión con el comando ipconfig
             _pclose(consola);
-            // Mostrar un mensaje de éxito
-            printf("Información del adaptador de red guardada en adaptador.txt.\n\n");
         }
+    }
+}
+
+void addAdaptadorRed(FILE* archivoParm) {
+
+    // Declaración de variables
+    char comando[1024];
+    char lectura[1024];
+    char respuesta[100];
+    bool bAdaptador = false;
+    FILE* consola = NULL;
+
+    // Mientras el nombre de adaptador introducido exista
+    while (1) {
+        strcpy(respuesta, "");
+        // Definimos el comando a ejecutar para obtener los adaptadores de red
+        sprintf(comando, "ipconfig | findstr /C:\"Adaptador\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i");
+        // Ejecutar el comando definido
+        consola = _popen(comando, "r");
+        // Si no se ha podido ejecutar el comando ipconfig
+        if (consola == NULL) {
+            // Mostrar un mensaje de error
+            printf("Error al ejecutar el comando ipconfig.\n");
+            break;
+        }
+        // Si se ha podido ejecutar el comando ipconfig
+        else {
+            // Mostrar un mensaje de éxito
+            printf("Comando ipconfig ejecutado con éxito.\n\n");
+            // Mostrar los adaptadores de red
+            printf("--- Adaptadores de red ---\n");
+            // Mostrar los datos de ipconfig
+            while (fgets(lectura, sizeof(lectura), consola) != NULL) {
+                printf("%s", lectura);
+            }
+            // Cerrar la conexión con el comando ipconfig
+            _pclose(consola);
+            // Añadir un separador por pantalla
+            printf("-----------------------------------\n\n");
+            // Pedir el nombre del adaptador de red
+            printf("Introduce el nombre del adaptador de red que quieres añadir: ");
+            scanf("%s", respuesta);
+            vaciarEntrada();
+            // Comando para localizar el nombre del adaptador de red
+            sprintf(comando, "ipconfig | findstr /C:\"Adaptador de Ethernet %s\" /C:\"Adaptador de LAN inalámbrica %s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i", respuesta, respuesta);
+            // Ejecutar el comando definido
+            consola = _popen(comando, "r");
+            // Si no se ha podido ejecutar el comando ipconfig
+            if (consola == NULL) {
+                // Mostrar un mensaje de error
+                printf("Error al ejecutar el comando ipconfig.\n");
+                // Salir del bucle
+                break;
+            }
+            else {
+                // Mostrar un mensaje de éxito
+                printf("Comando ipconfig ejecutado con éxito.\n\n");
+                // Recorerr las líneas de la salida del comando ipconfig
+                if (fgets(lectura, sizeof(lectura), consola) != NULL) {
+                    // Si el adaptador ya existe
+                    if (strstr(lectura, respuesta) != NULL) {
+                        // Mostrar un mensaje de error
+                        printf("El adaptador ya existe. Introduce otro nombre.\n\n");
+                        // Cerrar la conexión con el comando ipconfig
+                        _pclose(consola);
+                    }
+                }
+                else {
+                    // Añadir separador en el archivo
+                    fprintf(archivoParm, "-----------------------------------\n\n");
+                    // Registrar el nombre del adaptador en el archivo adaptador.txt
+                    fprintf(archivoParm, "Adaptador de Red %s\n", respuesta);
+                    // Añadir un separador en el archivo
+                    fprintf(archivoParm, "-----------------------------------\n\n");
+                    // Mostrar un mensaje de éxito
+                    printf("Nombre del adaptador registrado con éxito.\n\n");
+                    // Cerrar la conexión con el comando ipconfig
+                    _pclose(consola);
+                    // Registrar que el adaptador se ha registrado
+                    bAdaptador = true;
+                    // Salir del bucle
+                    break;
+                }
+            }
+        }
+    }
+    // Si se ha registrado un adaptador
+    if (bAdaptador) {
+        // Solicitar la IP, la máscara y la puerta de enlace
+        printf("Introduce la IP: ");
+        scanf("%s", respuesta);
+        vaciarEntrada();
+        // Registrar la IP en el archivo adaptador.txt
+        fprintf(archivoParm, "Dirección IPv4: %s\n", respuesta);
+        // Solicitar la máscara
+        printf("Introduce la máscara de subred: ");
+        scanf("%s", respuesta);
+        vaciarEntrada();
+        // Registrar la máscara en el archivo adaptador.txt
+        fprintf(archivoParm, "Máscara: %s\n", respuesta);
+        // Solicitar la puerta de enlace
+        printf("Introduce la puerta de enlace: ");
+        scanf("%s", respuesta);
+        vaciarEntrada();
+        // Registrar la puerta de enlace en el archivo adaptador.txt
+        fprintf(archivoParm, "Puerta de enlace: %s\n", respuesta);
+        // Añadir un separador en el archivo
+        fprintf(archivoParm, "-----------------------------------\n\n");
+        // Volver al inicio del archivo
+        rewind(archivoParm);
+        // Mostar el contenido del archivo adaptador.txt
+        while (fgets(lectura, sizeof(lectura), archivoParm) != NULL) {
+            // Mostrar el contenido del archivo
+            printf("%s", lectura);
+        }
+        // Mostrar un mensaje de éxito
+        printf("Se han registrado con éxito los datos del adaptador introducidos.\n\n");
+        // Cerrar el archivo
+        fclose(archivoParm);
     }
 }
 
@@ -322,6 +516,14 @@ bool abrirArchivo(char* rutaParam, char* modoParam, FILE** archivoParam) {
     }
 }
 
+// Función para vaciar el buffer de entrada
+void vaciarEntrada() {
+    int c;
+    do {
+        c = getchar();
+    } while (c != EOF && c != '\n');
+}
+
 // Programa principal
 int main() {
 
@@ -333,19 +535,22 @@ int main() {
     // Bucle mientras no se seleccione la opción de salir
     do {
         // Menú principal
-        printf("Bienvenid@ al programa para la obtención de DNS con menor ping.\n");
+        printf("Bienvenid@ al programa.\n");
         printf("--- Menú Principal ---\n");
         printf("1. Insertar fecha y hora.\n");
         printf("2. Comprobar IPs.\n");
         printf("3. Mostrar adaptadores de red y registrar seleccionado.\n");
-        printf("4. Vaciar archivo.\n");
+        printf("4. Mostrar adaptadores de red y añadir uno.\n");
+        printf("5. Vaciar archivo.\n");
         printf("0. Salir del programa.\n");
         printf("Selecciona una opción: ");
         // Mientras la opción no sea un número, seguir pidiendo la opción
         while (scanf("%d", &opcion) != 1) {
-            printf("Por favor, pulsa enter y seleccione una opción válida:");
-            // Limpiar el buffer de entrada y descartar cualquier carácter que no sea un número
-            while (getchar() != '\n');
+            // Registrar opción inválida
+            opcion = -1;
+            // Limpiar el buffer de entrada 
+            vaciarEntrada();
+            break;
         }
 
         switch (opcion) {
@@ -368,7 +573,7 @@ int main() {
             // Abrimos el archivo en modo escritura y lectura al inicio del archivo
             if (abrirArchivo(ruta, modo, &archivo)) {
                 // Llamamos a la función para comprobar las IPs
-                comprobarIPs(archivo);
+                comprobarIPs(archivo, ruta);
                 // Cerramos el archivo
                 fclose(archivo);
             }
@@ -380,22 +585,46 @@ int main() {
             // Abrimos el archivo
             if (abrirArchivo(ruta, modo, &archivo)) {
                 // Llamamos a la función para mostrar los adaptadores de red, pasando el archivo como parámetro
-                adaptadorRed(archivo);
+                copiarAdaptadorRed(archivo);
                 // Cerramos el archivo
                 fclose(archivo);
             }
             break;
         case 4:
+            // Establecemos la ruta y el modo de apertura del archivo
+            strcpy(ruta, "C:/temp/adaptador.txt");
+            strcpy(modo, "at+");
+            // Abrimos el archivo
+            if (abrirArchivo(ruta, modo, &archivo)) {
+                // Llamamos a la función para mostrar los adaptadores de red, pasando el archivo como parámetro
+                addAdaptadorRed(archivo);
+                // Cerramos el archivo
+                fclose(archivo);
+            }
+            break;
+        case 5:
             // Solicitamos la ruta del archivo a vaciar
             printf("Introduce la ruta del archivo que deseas vaciar: ");
             scanf("%s", ruta);
-            strcpy(modo, "rt+");
-            // Abrimos el archivo en modo escritura y lectura al inicio del archivo
-            if (abrirArchivo(ruta, modo, &archivo)) {
-                // Llamamos a la función para eliminar la fecha y hora si ya existen
-                vaciarArchivo(archivo);
-                // Cerramos el archivo
-                fclose(archivo);
+            strcpy(modo, "wt");
+            // Comprobamos si el fichero indicado existe 
+            if (fopen(ruta, "r") == NULL) {
+                // Si no existe, mostramos un mensaje de error
+                printf("El archivo no existe.\n\n");
+                // Salimos del bucle
+                break;
+            }
+            // Si el archivo existe
+            else {
+                // Si existe, mostramos un mensaje de éxito
+                printf("Archivo encontrado.\n\n");
+                // Abrimos el archivo en modo escritura
+                if (abrirArchivo(ruta, modo, &archivo)) {
+                    // Confirmamos que se ha vaciado el archivo
+                    printf("Archivo vaciado con éxito.\n\n");
+                    // Cerramos el archivo
+                    fclose(archivo);
+                }
             }
             break;
         case 0:
