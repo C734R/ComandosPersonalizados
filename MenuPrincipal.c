@@ -95,7 +95,9 @@ void comprobarIPs(FILE *archivoParam) {
             // Incrementar el contador de IPs
             totalIPs++;
         }
-        
+        // Añadir un separador por pantalla 
+        printf("-----------------------------------\n\n");
+
         // Volver al inicio del archivo
         rewind(archivoIPs);
 
@@ -129,7 +131,8 @@ void comprobarIPs(FILE *archivoParam) {
         // Cerrar el archivo
         fclose(archivoIPs);
     }
-
+    // Añadir un separador por pantalla 
+    printf("-----------------------------------\n\n");
     // Ir al final del archivo
     fseek(archivoParam, 0, SEEK_END);
     // Obtener el tamaño del archivo en base a posición actual
@@ -160,6 +163,7 @@ void comprobarIPs(FILE *archivoParam) {
         // Salir de la función
         return;
     }
+    
     // Añadir un separador al inicio de la entrada
     fprintf(archivoParam, "-----------------------------------\n");
     // Insertamos la fecha y hora en el archivo
@@ -212,21 +216,6 @@ void adaptadorRed(FILE *archivoParam) {
     sprintf(comando,"ipconfig | findstr /C:\"Adaptador\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i");
     // Ejecutar el comando definido
     consola = _popen(comando, "r");
-    // Mostrar los datos de ipconfig
-    while (fgets(lectura, sizeof(lectura), consola) != NULL) {
-        printf("%s", lectura);
-    }
-    // Cerrar la conexión con el comando ipconfig
-    _pclose(consola);
-
-    // Pedir el nombre del adaptador de red
-    printf("Introduce el nombre del adaptador de red del que quieres guardar su información: ");
-    scanf("%s", adaptador);
-
-    // Crear el comando para obtener la información del adaptador de red que coincida con la IP, la máscara y la puerta de enlace introducidas
-    sprintf(comando, "ipconfig | findstr /C:\"Adaptador de ethernet %s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i",adaptador);
-    // Ejecutar el comando definido
-    consola = _popen(comando, "r");
     // Si no se ha podido ejecutar el comando ipconfig
     if (consola == NULL) {
         // Mostrar un mensaje de error
@@ -236,48 +225,79 @@ void adaptadorRed(FILE *archivoParam) {
     else {
         // Mostrar un mensaje de éxito
         printf("Comando ipconfig ejecutado con éxito.\n\n");
-        
-        printf("--- Datos del adaptador guardado ---\n");
-
-        // Mientras haya respuesta del comando ipconfig
+        // Mostrar los adaptadores de red
+        printf("--- Adaptadores de red ---\n");
+        // Mostrar los datos de ipconfig
         while (fgets(lectura, sizeof(lectura), consola) != NULL) {
-
-            if (strstr(lectura, "Adaptador") != NULL) {
-                // Mostrar la línea
-                printf("%s", lectura);
-                // Escribir la información en el archivo adaptador.txt
-                fprintf(archivoParam, "%s", lectura);
-            }
-
-            // Si la línea contiene la palabra "Dirección IP" y coincide con la IP introducida
-            if (strstr(lectura, "IPv4") != NULL) {
-                // Mostrar la línea
-                printf("%s", lectura);
-                // Escribir la información en el archivo adaptador.txt
-                fprintf(archivoParam, "%s", lectura);
-            }
-            // Si la línea contiene la palabra "Máscara de subred" y coincide con la máscara de subred introducida
-            if (strstr(lectura, "subred") != NULL) {
-                // Mostrar la línea
-                printf("%s", lectura);
-                // Escribir la información en el archivo adaptador.txt
-                fprintf(archivoParam, "%s", lectura);
-            }
-            // Si la línea contiene la palabra "Puerta de enlace predeterminada" y coincide con la puerta de enlace introducida
-            if (strstr(lectura, "enlace") != NULL) {
-                // Mostrar la línea
-                printf("%s", lectura);
-                // Escribir la información en el archivo adaptador.txt
-                fprintf(archivoParam, "%s", lectura);
-                break;
-            }
+            printf("%s", lectura);
         }
-        // Cerrar el archivo
-        fclose(archivoParam);
         // Cerrar la conexión con el comando ipconfig
         _pclose(consola);
-        // Mostrar un mensaje de éxito
-        printf("Información del adaptador de red guardada en adaptador.txt.\n\n");
+        // Añadir un separador por pantalla
+        printf("-----------------------------------\n\n");
+        
+        // Pedir el nombre del adaptador de red
+        printf("Introduce el nombre del adaptador de red del que quieres guardar su información: ");
+        scanf("%s", adaptador);
+
+        // Crear el comando para obtener la información del adaptador de red que coincida con la IP, la máscara y la puerta de enlace introducidas
+        sprintf(comando, "ipconfig | findstr /C:\"Adaptador de ethernet %s\" /C:\"IPv4\" /C:\"enlace\" /C:\"subred\" /i",adaptador);
+        // Ejecutar el comando definido
+        consola = _popen(comando, "r");
+        // Si no se ha podido ejecutar el comando ipconfig
+        if (consola == NULL) {
+            // Mostrar un mensaje de error
+            printf("Error al ejecutar el comando ipconfig.\n");
+        }
+        // Si se ha podido ejecutar el comando ipconfig
+        else {
+            // Mostrar un mensaje de éxito
+            printf("Comando ipconfig ejecutado con éxito.\n\n");
+            
+            printf("--- Datos del adaptador guardado ---\n");
+
+            // Mientras haya respuesta del comando ipconfig
+            while (fgets(lectura, sizeof(lectura), consola) != NULL) {
+
+                if (strstr(lectura, "Adaptador") != NULL) {
+                    // Mostrar la línea
+                    printf("%s", lectura);
+                    // Escribir la información en el archivo adaptador.txt
+                    fprintf(archivoParam, "%s", lectura);
+                }
+
+                // Si la línea contiene la palabra "Dirección IP" y coincide con la IP introducida
+                if (strstr(lectura, "IPv4") != NULL) {
+                    // Mostrar la línea
+                    printf("%s", lectura);
+                    // Escribir la información en el archivo adaptador.txt
+                    fprintf(archivoParam, "%s", lectura);
+                }
+                // Si la línea contiene la palabra "Máscara de subred" y coincide con la máscara de subred introducida
+                if (strstr(lectura, "subred") != NULL) {
+                    // Mostrar la línea
+                    printf("%s", lectura);
+                    // Escribir la información en el archivo adaptador.txt
+                    fprintf(archivoParam, "%s", lectura);
+                }
+                // Si la línea contiene la palabra "Puerta de enlace predeterminada" y coincide con la puerta de enlace introducida
+                if (strstr(lectura, "enlace") != NULL) {
+                    // Mostrar la línea
+                    printf("%s", lectura);
+                    // Escribir la información en el archivo adaptador.txt
+                    fprintf(archivoParam, "%s", lectura);
+                    break;
+                }
+            }
+            // Mostrar un separador por pantalla
+            printf("-----------------------------------\n\n");
+            // Cerrar el archivo
+            fclose(archivoParam);
+            // Cerrar la conexión con el comando ipconfig
+            _pclose(consola);
+            // Mostrar un mensaje de éxito
+            printf("Información del adaptador de red guardada en adaptador.txt.\n\n");
+        }
     }
 }
 
@@ -296,7 +316,7 @@ bool abrirArchivo(char *rutaParam, char *modoParam, FILE **archivoParam) {
     // Si se ha podido abrir el archivo
     else {
         // Mostrar un mensaje de éxito
-        printf("Archivo abierto con éxito.\n");
+        printf("Archivo abierto con éxito.\n\n");
         // Devolver verdadero
         return true;
     }
