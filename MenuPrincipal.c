@@ -70,6 +70,7 @@ void comprobarIPs(FILE *archivoParam, char *rutaParam) {
         // Pedimos al usuario la ruta del archivo que contiene las IPs
         printf("Introduce la ruta del archivo que contiene las IPs a testear: ");
         entradaMasVaciar(ruta, sizeof(ruta), stdin);
+        // Eliminar el salto de línea
         ruta[strlen(ruta) - 1] = '\0';
         // Comprobamos si el fichero indicado existe
         if (fopen(ruta, "r") == NULL){
@@ -354,11 +355,9 @@ void copiarAdaptadorRed(FILE *archivoParam) {
 void addAdaptadorRed(FILE *archivoParm) {
     
     // Declaración de variables
-    char comando[1024];
     char lectura[1024];
     char respuesta [100];
     bool bAdaptador = false;
-    FILE *consola = NULL;
 
     // Mientras el nombre de adaptador introducido exista
     while (1){
@@ -371,10 +370,8 @@ void addAdaptadorRed(FILE *archivoParm) {
         else {
             // Pedir el nombre del adaptador de red
             printf("Introduce el nombre del adaptador de red que quieres añadir: ");
-            // Vaciar el buffer de entrada
-            vaciarEntrada();
             // Leer el nombre del adaptador de red
-            fgets(respuesta, 100, stdin);
+            entradaMasVaciar(respuesta, sizeof(respuesta), stdin);
             // Eliminar el salto de línea
             respuesta[strlen(respuesta) - 1] = '\0';
             // Mostrar un mensaje de éxito
@@ -386,9 +383,12 @@ void addAdaptadorRed(FILE *archivoParm) {
                 // Registramos que el adaptador ya existe
                 bAdaptador = false;
             }
+            // Si no se encuentra el adaptador
             else {
                 // Registramos que no existe el adaptador
                 bAdaptador = true;
+                // Salimos del bucle
+                break;
             }   
         }
     }
@@ -405,59 +405,62 @@ void addAdaptadorRed(FILE *archivoParm) {
 
         // Mientras los carácteres introducidos no cumplan con el formato de una IP
         while (1){
-            // Solicitar la IP, la máscara y la puerta de enlace
+            // Solicitar la IP
             printf("Introduce la IP: ");
-            // Vaciar el buffer de entrada
-            vaciarEntrada();
-            fgets(respuesta, 100, stdin);
-            // Comprobar si la IP introducida es válida
+            entradaMasVaciar(respuesta, sizeof(respuesta), stdin);
+            // Eliminar el salto de línea
             respuesta[strlen(respuesta) - 1] = '\0';
-            if (validarIP(respuesta)){
+            // Si la IP no es válida
+            if (!validarIP(respuesta)){
                 // Mostrar un mensaje de error
                 printf("La IP introducida no es válida. Introduce una IP válida.\n");
             }
-            // Si la IP es válida, salir del bucle
+            // Si la IP es válida
             else {
                 // Registrar la IP en el archivo adaptador.txt
                 fprintf(archivoParm, "Dirección IPv4: %s\n", respuesta);
+                // Salir del bucle
                 break;
             }
         }
+        // Mientras los carácteres introducidos no cumplan con el formato de una máscara
         while (1){
             // Solicitar la máscara
             printf("Introduce la máscara de subred: ");
-            // Vaciar el buffer de entrada
-            vaciarEntrada();
-            fgets(respuesta, 100, stdin);
-            // Comprobar si la máscara introducida es válida
+            entradaMasVaciar(respuesta, sizeof(respuesta), stdin);
+            // Eliminar el salto de línea
             respuesta[strlen(respuesta) - 1] = '\0';
-            if (validarIP(respuesta)){
+            // Si la máscara no es válida
+            if (!validarIP(respuesta)){
                 // Mostrar un mensaje de error
                 printf("La máscara introducida no es válida. Introduce una máscara válida.\n");
             }
-            // Si la máscara es válida, salir del bucle
+            // Si la máscara es válida
             else {
                 // Registrar la máscara en el archivo adaptador.txt
                 fprintf(archivoParm, "Máscara: %s\n", respuesta);
+                // Salir del bucle
                 break;
             }
         }
+        // Mientras los carácteres introducidos no cumplan con el formato de una puerta de enlace
         while (1){
             // Solicitar la puerta de enlace
             printf("Introduce la puerta de enlace: ");
-            // Vaciar el buffer de entrada
-            vaciarEntrada();
-            fgets(respuesta, 100, stdin);
-            // Comprobar si la puerta de enlace introducida es válida
+            // Leer la puerta de enlace
+            entradaMasVaciar(respuesta, sizeof(respuesta), stdin);
+            // Eliminar el salto de línea
             respuesta[strlen(respuesta) - 1] = '\0';
-            if (validarIP(respuesta)){
+            // Si la puerta de enlace no es válida
+            if (!validarIP(respuesta)){
                 // Mostrar un mensaje de error
                 printf("La puerta de enlace introducida no es válida. Introduce una puerta de enlace válida.\n");
             }
-            // Si la puerta de enlace es válida, salir del bucle
+            // Si la puerta de enlace es válida
             else {
                 // Registrar la puerta de enlace en el archivo adaptador.txt
                 fprintf(archivoParm, "Puerta de enlace: %s\n", respuesta);
+                // Salir del bucle
                 break;
             }
         }
@@ -575,99 +578,100 @@ bool abrirArchivo(char *rutaParam, char *modoParam, FILE **archivoParam) {
     }
 }
 
-// Función para vaciar el buffer de entrada y leerlo
-char * entradaMasVaciar (char * destino, int longitud, FILE * fuente) {
-    // Vaciar el buffer de entrada
-    vaciarEntrada();
+// Función para leer una entrada y vaciar el buffer de entrada
+char *entradaMasVaciar(char *destino, int longitud, FILE *fuente) {
+    char *retorno;
     // Leer la entrada
-    return fgets(destino, longitud, fuente);
+    retorno = fgets(destino, longitud, fuente);
+    // Vaciar el buffer de entrada si aún queda algo
+    vaciarEntrada();
+    // Devolver el retorno
+    return retorno;
 }
+     
 
 // Función para vaciar el buffer de entrada
 void vaciarEntrada () {
+
+    // Declaración de variables
     int c;
-    do{
-        c = getchar();
-    } 
-    while (c != EOF && c != '\n');
+    // Mientras el carácter leído no sea un salto de línea o el final del archivo
+    while ((c = getchar()) != '\n' && c != EOF);
+
 }
 
 // Función para validar una dirección IP
 bool validarIP(const char *ip) {
+
     // Declaración de variables
     int num, puntos = 0;
-    // Declarar puntero a la IP
-    const char *ip_puntero;
-    // Inicializar el puntero al final de la IP
-    ip_puntero += strlen(ip) - 1;
+    const char *puntero_ip = ip;
 
-    // Comprobar si la IP es nula
+    // Si la ip es nula
     if (ip == NULL) {
-        // Si es nula, la IP no es válida
+        // Devolver falso
         return false;
     }
 
-    // Mientras no se haya llegado al inicio de la IP
-    while (ip_puntero >= ip) {
-        // Comprobar si el carácter actual es un punto
-        if (*ip_puntero == '.') {
-            // Si el primer caracter es un punto, hay más de 3 puntos o la IP es un punto
-            if (ip_puntero == ip || puntos == 3 || *(ip_puntero + 1) == '.'){
-                // Si es igual, la IP no es válida
-                return false;  
+    // Mientras haya caracteres en la dirección IP
+    while (*puntero_ip) {
+        // Comprobar si el carácter actual es un dígito
+        if (*puntero_ip < '0' || *puntero_ip > '9') {
+            // Si es un punto
+            if (*puntero_ip == '.') {
+                // Aumentar el contador de puntos
+                puntos++;
+                // Si hay más de 3 puntos o el último carácter es un punto
+                if (puntos > 3 || *(puntero_ip - 1) == '.') {
+                    // Devolver falso
+                    return false;
+                }
+            } 
+            // Si no es ni punto ni dígito
+            else {
+                // Devolver falso
+                return false;
             }
-            // Incrementar el número de puntos contados
-            puntos++;
-        } 
-        // Si el carácter actual no es la primera de las 3 cifras antes del punto y no es un número entre 0 y 9
-        else if (ip_puntero != ip && (*ip_puntero < '0' || *ip_puntero > '9')) { 
-            // La IP no es válida
+        }
+        // Mover el puntero al siguiente carácter
+        puntero_ip++;
+    }
+
+    // S termina en punto o si la cantidad de puntos no es exactamente 3
+    if (*(puntero_ip - 1) == '.' || puntos != 3) {
+        // Devolver falso
+        return false;
+    }
+
+    // Para cada segmento de la dirección IP
+    for (int i = 0; i < 4; i++) {
+        // Convertir el segmento a un número
+        num = atoi(ip);
+        // Si el número no está en el rango de 0 a 255
+        if (num < 0 || num > 255) {
+            // Devolver falso
             return false;
         }
-        // Incrementar el puntero a la IP
-        ip_puntero++;        
-    }
-    // Si no hay 3 puntos
-    if (puntos != 3) {  
-        // La IP no es válida
-        return false;
-    }
-
-    // Si el último carácter es un punto
-    if (*(ip_puntero - 1) == '.') {
-        // La IP no es válida
-        return false;  
-    }
-
-    // Para cada uno de las 4 cifras de la IP    
-    for (int i = 0; i < 4; i++) {
-        // Convertir la cifra en carácteres a un número
-        num = atoi(ip);
-        // Comprobar si el número está entre 0 y 255
-        if (num < 0 || num > 255) {
-            // Si no está en el rango, la IP no es válida
-            return false;  
-        }
-        // Mover la IP a la siguiente cifra
-        ip = strchr(ip, '.');
-        // Si la ip no es nula
-        if (ip != NULL) {
-            // Mover la IP al siguiente octeto
-            ip++;  
+        // Si no es el último segmento
+        if (i < 3) {
+            // Mover el puntero al siguiente segmento
+            ip = strchr(ip, '.') + 1;
         }
     }
-    // Si todos los octetos son válidos, la IP es válida
+    // Si todo es correcto evolver verdadero
     return true;
 }
+
 
 // Programa principal
 int main() {
 
     // Declaración de variables
-    int opcion;
+    char opcion[2];
     char ruta[100];
     FILE *archivo = NULL;
     char modo[4];
+    int opcion_int = -1;
     // Bucle mientras no se seleccione la opción de salir
     do {
         // Menú principal
@@ -680,16 +684,20 @@ int main() {
         printf("5. Vaciar archivo.\n");
         printf("0. Salir del programa.\n");
         printf("Selecciona una opción: ");
-        // Mientras la opción no sea un número, seguir pidiendo la opción
-        while (scanf("%d", &opcion) != 1) {
+
+        entradaMasVaciar(opcion, sizeof(opcion), stdin);
+
+        // Convertir la opción a un número
+        opcion_int = atoi(opcion);
+
+        // Mientras la opción no sea un número
+        while (opcion_int < 0 || opcion_int > 5){
             // Registrar opción inválida
-            opcion = -1;
-            // Limpiar el buffer de entrada 
-            vaciarEntrada();
+            strcpy_s(opcion, sizeof(opcion), "-1");
             break;
         }
-
-        switch (opcion) {
+        // Convertir la opción a un número
+        switch (opcion_int){
             case 1:
                 // Establecemos la ruta y el modo de apertura del archivo
                 strcpy(ruta,"C:/temp/producto2.txt");
@@ -771,7 +779,7 @@ int main() {
                 break;
         }
     } 
-    while (opcion != 0);
+    while (opcion_int != 0);
 
     return 0;
 }
