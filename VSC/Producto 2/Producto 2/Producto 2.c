@@ -9,7 +9,7 @@
 // Declaración de funciones
 bool abrirArchivo(char* rutaParam, char* modoParam, FILE** archivoParam);
 void insertarFechaHora(FILE* archivo);
-void comprobarIPs(FILE* archivoParam, char* rutaParam);
+void pingIPs(FILE* archivoParam, char* rutaParam);
 void copiarAdaptadorRed(FILE* archivoParam);
 void addAdaptadorRed(FILE* archivoParam);
 void vaciarEntrada();
@@ -46,7 +46,7 @@ void insertarFechaHora(FILE* archivoParam) {
 // -- Se almacenará el resultado del paso anterior debajo de la fecha y la hora en el archivo 
 // producto2.txt, las IPs que han dado una respuesta positiva. Guardar el archivo y no borrar. (Menú punto 2)
 
-void comprobarIPs(FILE* archivoParam, char* rutaParam) {
+void pingIPs(FILE* archivoParam, char* rutaParam) {
 
     // Declaración de variables
     char ip[16];
@@ -573,7 +573,7 @@ int main() {
             // Abrimos el archivo en modo escritura y lectura al inicio del archivo
             if (abrirArchivo(ruta, modo, &archivo)) {
                 // Llamamos a la función para comprobar las IPs
-                comprobarIPs(archivo, ruta);
+                pingIPs(archivo, ruta);
                 // Cerramos el archivo
                 fclose(archivo);
             }
