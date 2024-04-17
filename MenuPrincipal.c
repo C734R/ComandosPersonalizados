@@ -25,7 +25,7 @@ int main() {
         printf("1. Insertar fecha y hora.\n");
         printf("2. Comprobar IPs.\n");
         printf("3. Mostrar adaptadores de red y registrar seleccionado.\n");
-        printf("4. Mostrar adaptadores de red y añadir uno.\n");
+        printf("4. Mostrar adaptadores de red y añadir uno diferente.\n");
         printf("5. Vaciar archivo.\n");
         printf("0. Salir del programa.\n");
         printf("Selecciona una opción: ");
