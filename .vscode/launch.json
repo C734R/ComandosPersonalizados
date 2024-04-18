@@ -32,8 +32,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/garciaa/Desktop/VS Code/ComandosPersonalizados",
-      "program": "c:/Users/garciaa/Desktop/VS Code/ComandosPersonalizados/build/Debug/outDebug",
+      "cwd": "c:/Users/garciaa/OneDrive - Blanc und Fischer Familienholding/Escritorio/VS Code/ComandosPersonalizados",
+      "program": "c:/Users/garciaa/OneDrive - Blanc und Fischer Familienholding/Escritorio/VS Code/ComandosPersonalizados/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

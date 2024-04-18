@@ -19,7 +19,6 @@
 char _buffer[1024];
 char _entradaProcesada[1024];
 char comando[1024];
-
 bool dentroBloque = false;
 FILE *consola = NULL;
 int i = 0;
@@ -34,6 +33,7 @@ bool encontrarAdaptador(char *nAdaptador);
 void copiarAdaptadorRed(FILE *archivoParam) {
     // Si no se han podido mostrar los adaptadores
     if (!mostrarAdaptadores()) {
+        // Salir de la función
         return;
     }
     // Si se han podido mostrar
@@ -46,6 +46,7 @@ void copiarAdaptadorRed(FILE *archivoParam) {
         printf("Adaptador de red introducido: %s\n", _entradaProcesada);
         // Si no se ha encontrado el adaptador
         if (!encontrarAdaptador(_entradaProcesada)) {
+            // Salir de la función
             return;
         }
         // Si se ha podido ejecutar el comando ipconfig
@@ -89,14 +90,16 @@ void copiarAdaptadorRed(FILE *archivoParam) {
                         fprintf(archivoParam, "%s", _buffer);
                         // Mostrar la línea
                         printf("%s", _buffer);
+                        // Incrementar el contador
                         i++;
+                        // Si se han mostrado las 3 líneas
                         if (i == 3){
+                            // Salir del bucle
                             break;
                         }
                     }
                 }
             }
-
             // Añadir un separador en el archivo
             fprintf(archivoParam, "-----------------------------------\n\n");
             // Mostrar separador por pantalla
@@ -111,6 +114,7 @@ void copiarAdaptadorRed(FILE *archivoParam) {
     }
 }
 
+// Función para añadir los datos de un nuevo adaptador de red en un archivo
 void addAdaptadorRed(FILE *archivoParm) {
     
     // Declaración de variables
@@ -150,11 +154,11 @@ void addAdaptadorRed(FILE *archivoParm) {
     // Si no existe el adaptador
     if (bAdaptador){
         // Añadir separador en el archivo
-        fprintf(archivoParm, "-----------------------------------\n\n");
+        fprintf(archivoParm, "-----------------------------------\n");
         // Registrar el nombre del adaptador en el archivo adaptador.txt
         fprintf(archivoParm, "Adaptador de Red %s\n", _entradaProcesada);
         // Añadir un separador en el archivo
-        fprintf(archivoParm, "-----------------------------------\n\n");
+        fprintf(archivoParm, "-----------------------------------\n");
         // Mostrar un mensaje de éxito
         printf("Nombre del adaptador registrado con éxito.\n\n");
 
@@ -229,6 +233,7 @@ void addAdaptadorRed(FILE *archivoParm) {
     }
 }
 
+// Función para mostrar los adaptadores de red
 bool mostrarAdaptadores(void){
 
     // Definimos el comando a ejecutar para obtener los adaptadores de red
@@ -246,10 +251,11 @@ bool mostrarAdaptadores(void){
     else {
         // Mostrar un mensaje de éxito
         printf("Comando ipconfig ejecutado con éxito.\n\n");
-        // Mostrar los adaptadores de red
+        // Mostrar encabezado por pantalla
         printf("--- Adaptadores de red ---\n");
-        // Mostrar los datos de ipconfig
+        // Recorrer las líneas de la salida del comando ipconfig
         while (fgets(_buffer, sizeof(_buffer), consola) != NULL) {
+            // Mostrar por pantalla la información devuelta por el comando ipconfig
             printf("%s", _buffer);
         }
         // Añadir un separador por pantalla
@@ -261,6 +267,7 @@ bool mostrarAdaptadores(void){
     }
 }
 
+// Función para comrpobar si existe un adaptador de red
 bool encontrarAdaptador(char *nAdaptador){
 
     // Crear el comando para obtener la información del adaptador de red que coincida con la IP, la máscara y la puerta de enlace introducidas

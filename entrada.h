@@ -13,7 +13,7 @@ char * entradaSinRetorno (char * destino, FILE * fuente);
 bool vaciarEntrada(const char *entrada);
 bool eliminarNL(char *entrada);
 
-// Función para leer una entrada y vaciar el buffer de entrada
+// Función para leer una entrada y eliminar el carácter de nueva línea
  char * entradaSinRetorno(char *destino, FILE *fuente) {
     // Declarar una variable para almacenar el retorno
     char * retorno = (char *) malloc(sizeof(destino));
@@ -27,6 +27,7 @@ bool eliminarNL(char *entrada);
     return retorno;
  }
 
+// Función para leer una entrada y no eliminar el carácter de nueva línea
 char * entradaConRetorno(char *destino, FILE *fuente) {
     // Leer la entrada y almacenarla en destino
     fgets(destino, (size_t)(destino), fuente);
@@ -45,6 +46,7 @@ bool vaciarEntrada (const char *entrada) {
     return true;
 }
 
+// Función para eliminar el carácter de nueva línea
 bool eliminarNL (char *entrada) {
     // Eliminar el carácter de nueva línea
     entrada[strlen(entrada) - 1] = '\0';

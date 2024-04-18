@@ -21,7 +21,6 @@
 #include <windows.h>
 #include "fecha.h"
 
-
 //Definimos funciones
 void pingIPs(FILE *archivoParam, char *rutaParam);
 bool validarIP(const char *ip);
@@ -122,10 +121,10 @@ void pingIPs(FILE *archivoParam, char *rutaParam) {
         }
         // Añadir un separador por pantalla 
         printf("-----------------------------------\n\n");
-
         // Volver al inicio del archivo
         rewind(archivoIPs);
-
+        // Mostramos un encabezado
+        printf("--- Testeando IPs ---\n");
         // Leer las IPs del archivo y comprobar si responden al ping
         while (fscanf(archivoIPs, "%s", ip) != EOF) {
             // Mostrar la IP que vamos a comprobar
@@ -233,7 +232,6 @@ bool validarIP(const char *ip) {
         // Devolver falso
         return false;
     }
-
     // Mientras haya un carácter en la dirección IP
     while (*puntero_ip) {
         // Si no es un dígito
@@ -257,13 +255,11 @@ bool validarIP(const char *ip) {
         // Mover el puntero al siguiente carácter
         puntero_ip++;
     }
-
     // S termina en punto o si la cantidad de puntos no es exactamente 3
     if (*(puntero_ip - 1) == '.' || puntos != 3) {
         // Devolver falso
         return false;
     }
-
     // Para cada segmento de la dirección IP
     for (int i = 0; i < 4; i++) {
         // Convertir el segmento a un número
