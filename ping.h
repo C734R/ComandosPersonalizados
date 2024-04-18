@@ -83,6 +83,7 @@ void pingIPs(FILE *archivoParam, char *rutaParam) {
                         }
                         // Escribir la IP en el archivo
                         fprintf(archivoIPs, "%s\n", ip);
+                        // Vaciar el buffer de entrada
                         vaciarEntrada(buffer);
                     }
                     // Mostrar un mensaje de éxito
@@ -105,15 +106,11 @@ void pingIPs(FILE *archivoParam, char *rutaParam) {
 
     // Si no se ha podido abrir el archivo
     if (!abrirArchivo(entradaProcesada, "r", &archivoIPs)){
-        // Mostrar un mensaje de error 
-        printf("Error al abrir el archivo ubicado en la ruta : %s\n", entradaProcesada);
         // Salir de la función
         return;
     }
     // Si se ha podido abrir el archivo
     else {
-        // Si se pudo abrir el archivo, mostrar un mensaje de éxito
-        printf("Archivo abierto con éxito.\n\n");
         // Mostrar un mensaje con las IPs que se van a testear
         printf("--- Testearemos las siguientes IPs ---\n");
         // Mientras haya IPs en el archivo, incrementar el contador de IPs
@@ -182,16 +179,16 @@ void pingIPs(FILE *archivoParam, char *rutaParam) {
     fread(contenido, 1, (size_t)tam_archivo, archivoParam);
     // Añadir un carácter nulo al final del contenido, emulando el fin de cadena
     contenido[tam_archivo] = '\0';
+    // Si no se ha podido vaciar el archivo
     if (!vaciarArchivo(rutaParam)){
         // Liberar la memoria reservada para el contenido
         free(contenido);
         // Salir de la función
         return;
     }
+    // Si se ha podido vaciar el archivo
     else {
-        // Mostrar un mensaje de éxito
-        printf("Archivo vaciado con éxito.\n\n");
-            // Añadir un separador al inicio de la entrada
+        // Añadir un separador al inicio de la entrada
         fprintf(archivoParam, "-----------------------------------\n");
         // Insertamos la fecha y hora en el archivo
         insertarFechaHora(archivoParam);
@@ -207,6 +204,7 @@ void pingIPs(FILE *archivoParam, char *rutaParam) {
         
         // Escribir el contenido al final del archivo
         fseek(archivoParam, 0, SEEK_END);
+        // Si no se ha podido escribir el contenido en el archivo
         if(fwrite(contenido, 1, (size_t)tam_archivo, archivoParam) != (size_t)tam_archivo){
             // Informar del error
             printf("Error al escribir el contenido en el archivo.\n\n");
@@ -236,9 +234,9 @@ bool validarIP(const char *ip) {
         return false;
     }
 
-    // Mientras haya caracteres en la dirección IP
+    // Mientras haya un carácter en la dirección IP
     while (*puntero_ip) {
-        // Comprobar si el carácter actual es un dígito
+        // Si no es un dígito
         if (*puntero_ip < '0' || *puntero_ip > '9') {
             // Si es un punto
             if (*puntero_ip == '.') {

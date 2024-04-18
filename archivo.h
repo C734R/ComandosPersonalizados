@@ -1,18 +1,13 @@
-
-#ifndef AUXILIARES_H
-#define AUXILIARES_H
+#ifndef ARCHIVO_H
+#define ARCHIVO_H
 
 // Inclusión de las librerías necesarias
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
+
 
 // Declarar funciones
 bool abrirArchivo(char *rutaParam, char *modoParam, FILE **archivoParam);
-char * entradaSinRetorno (char * destino, FILE * fuente);
-bool vaciarEntrada(const char *str);
-bool eliminarNL(char *str);
 bool existeArchivo(char *rutaParam);
 bool vaciarArchivo(char *rutaParam);
 
@@ -73,43 +68,6 @@ bool vaciarArchivo(char *rutaParam) {
         // Devolver verdadero
         return true;
     }
-}
-
-// Función para leer una entrada y vaciar el buffer de entrada
- char * entradaSinRetorno(char *destino, FILE *fuente) {
-    // Declarar una variable para almacenar el retorno
-    char * retorno = (char *) malloc(sizeof(destino));
-    // Leer la entrada
-    fgets(destino, (size_t)(destino), fuente); 
-    // Eliminar el carácter de nueva línea
-    eliminarNL(destino);
-    // Volcar en retorno
-    strcpy(retorno, destino);
-    // Devolver el retorno
-    return retorno;
- }
-
-char * entradaConRetorno(char *destino, FILE *fuente) {
-    // Leer la entrada
-    fgets(destino, (size_t)(destino), fuente);
-    // Devolver la entrada
-    return destino;
-}
-
-// Función para vaciar el buffer de entrada
-bool vaciarEntrada (const char *str) {
-    // Si el último carácter de la cadena no es un salto de línea
-    if(str[strlen(str) - 1] != '\n'){
-      //Limpiamos el búfer
-      while(getchar() != '\n');
-    }
-    return true;
-}
-
-bool eliminarNL (char *str) {
-    // Eliminar el carácter de nueva línea
-    str[strlen(str) - 1] = '\0';
-    return true;
 }
 
 #endif

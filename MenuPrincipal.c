@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "auxiliares.h"
+#include "archivo.h"
+#include "entrada.h"
 #include "ping.h"
-#include "adaptador.h"
 #include "fecha.h"
+#include "adaptador.h"
 
 // Programa principal
 int main() {
@@ -13,7 +14,7 @@ int main() {
     // Declaración de variables
     char opcion[10];
     FILE *archivo = NULL;
-    int opcion_int = -1;
+    int opcion_int = -1;  // Inicializamos la opción a -1
     char buffer[1024];
     char entradaProcesada[1024];
 
@@ -36,18 +37,20 @@ int main() {
         // Convertir la opción a un número
         opcion_int = atoi(opcion);
 
+        // Vaciar entrada
         vaciarEntrada(opcion);
 
-        // Mientras la opción no sea un número
-        while (opcion_int < 0 || opcion_int > 5){
+        // Mientras la opción no sea un número y no esté vacía
+        while ((opcion_int < 0 || opcion_int > 5)){
             // Registrar opción inválida
-            strcpy_s(opcion, sizeof(opcion), "-1");
+            opcion_int = -1;
             // Salir del bucle
             break;
         }
 
-        // Convertir la opción a un número
+        // Según la opción seleccionada
         switch (opcion_int){
+            // Insertar fecha y hora
             case 1:
                 // Si se ha podido abrir el archivo en modo escritura y lectura al inicio del archivo
                 if (abrirArchivo("C:/temp/producto2.txt", "rt+", &archivo)){
@@ -55,8 +58,10 @@ int main() {
                     insertarFechaHora(archivo);
                     // Cerramos el archivo
                     fclose(archivo);
-                };               
+                };
+                // Salimos del bucle         
                 break;
+            // Comprobar IPs
             case 2:
                 // Si se ha podido abrir el archivo en modo escritura y lectura al inicio del archivo
                 if (abrirArchivo("C:/temp/producto2.txt", "at+", &archivo)){
@@ -65,7 +70,9 @@ int main() {
                     // Cerramos el archivo
                     fclose(archivo);
                 }
+                // Salimos del bucle
                 break;
+            // Mostrar adaptadores de red y registrar seleccionado
             case 3:
                 // Si se ha podido abrir el archivo en modo escritura y lectura al inicio del archivo
                 if (abrirArchivo("C:/temp/adaptador.txt", "wt", &archivo)){
@@ -74,8 +81,9 @@ int main() {
                     // Cerramos el archivo
                     fclose(archivo);
                 }
-                //
+                // Salimos del bucle
                 break;
+            // Mostrar adaptadores de red y añadir uno diferente
             case 4:
                 // Abrimos el archivo
                 if (abrirArchivo("C:/temp/adaptador.txt", "wt", &archivo)){
@@ -84,7 +92,9 @@ int main() {
                     // Cerramos el archivo
                     fclose(archivo);
                 }
+                // Salimos del bucle
                 break;
+            // Vaciar archivo
             case 5:
                 // Solicitamos la ruta del archivo a vaciar
                 printf("Introduce la ruta del archivo que deseas vaciar: ");
@@ -101,12 +111,21 @@ int main() {
                     // Vaciamos el archivo
                     vaciarArchivo(entradaProcesada);
                 }
+                // Salimos del bucle
                 break;
+            // Salir del programa
             case 0:
+                // Informamos de la salida de la aplicación
                 printf("Saliendo de la aplicación...\n");
+                // Esperamos a que el usuario pulse una tecla
+                system("pause");
+                // Salimos del bucle
                 break;
+            // Opción inválida
             default:
+                // Informamos de que la opción seleccionada no es válida
                 printf("Opción inválida. Por favor, seleccionz una opción válida.\n\n");
+                // Salimos del bucle
                 break;
         }
     } 

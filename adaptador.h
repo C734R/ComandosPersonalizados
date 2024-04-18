@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "auxiliares.h"
+#include "entrada.h"
 
 // Declaración de variables
 char _buffer[1024];
