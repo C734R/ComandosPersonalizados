@@ -1,15 +1,9 @@
-#ifndef ARCHIVO_H
-#define ARCHIVO_H
+#ifndef ARCHIVO_C
+#define ARCHIVO_C
 
 // Inclusión de las librerías necesarias
 #include <stdio.h>
 #include <stdbool.h>
-
-
-// Declarar funciones
-bool abrirArchivo(char *rutaParam, char *modoParam, FILE **archivoParam);
-bool existeArchivo(char *rutaParam);
-bool vaciarArchivo(char *rutaParam);
 
 // Función para abrir un archivo de la ruta especificada en el modo especificado y almacenar el puntero al archivo
 bool abrirArchivo(char *rutaParam, char *modoParam, FILE **archivoParam) {

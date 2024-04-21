@@ -5,29 +5,25 @@
 // realizar lo anterior la función lanzará un comando de dos que le proporcionará la información 
 // que necesita junto con otra que no se considera relevante, y será capaz de extraer y mostrar 
 // la que se ha detallado. (menú punto3)*/
-#ifndef adaptador_h
-#define adaptador_h
+
+#ifndef adaptador_c
+#define adaptador_c
 
 // Añadir librerías necesarias
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "entrada.h"
+#include "../entrada/entrada.h"
+#include "../entrada/entrada.c"
 
 // Declaración de variables
 char _buffer[1024];
 char _entradaProcesada[1024];
-char comando[1024];
+char comando[2048];
 bool dentroBloque = false;
 FILE *consola = NULL;
 int i = 0;
-
-// Declaración de funciones
-void copiarAdaptadorRed(FILE *archivoParam);
-void addAdaptadorRed(FILE *archivoParm);
-bool mostrarAdaptadores(void);
-bool encontrarAdaptador(char *nAdaptador);
 
 // Función para copiar la información de un adaptador de red en un archivo
 void copiarAdaptadorRed(FILE *archivoParam) {

@@ -2,11 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "archivo.h"
-#include "entrada.h"
-#include "ping.h"
-#include "fecha.h"
-#include "adaptador.h"
+#include "librerias/entrada/entrada.h"
+#include "librerias/entrada/entrada.c"
+#include "librerias/fecha/fecha.h"
+#include "librerias/fecha/fecha.c"
+#include "librerias/ping/ping.h"
+#include "librerias/ping/ping.c"
+#include "librerias/adaptador/adaptador.h"
+#include "librerias/adaptador/adaptador.c"
 
 // Programa principal
 int main() {

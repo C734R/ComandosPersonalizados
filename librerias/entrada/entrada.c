@@ -1,17 +1,11 @@
-
-#ifndef ENTRADA_H
-#define ENTRADA_H
+#ifndef ENTRADA_C
+#define ENTRADA_C
 
 // Inclusión de las librerías necesarias
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
-// Declarar funciones
-char * entradaSinRetorno (char * destino, FILE * fuente);
-bool vaciarEntrada(const char *entrada);
-bool eliminarNL(char *entrada);
 
 // Función para leer una entrada y eliminar el carácter de nueva línea
  char * entradaSinRetorno(char *destino, FILE *fuente) {
@@ -53,5 +47,4 @@ bool eliminarNL (char *entrada) {
     // Devolver verdadero
     return true;
 }
-
 #endif
