@@ -1,1 +1,6 @@
-C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\Producto 2.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\Producto 2.obj
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\adaptador.obj
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\archivo\archivo.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\archivo.obj
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\entrada\entrada.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\entrada.obj
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\fecha\fecha.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\fecha.obj
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\ping\ping.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\ping.obj
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\MenuPrincipal.c;C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\x64\Debug\MenuPrincipal.obj

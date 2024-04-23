@@ -1,2 +1,24 @@
-﻿  Producto 2.c
+﻿  adaptador.c
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(40,64): warning C4013: 'entradaSinRetorno' sin definir; se supone que extern devuelve como resultado int
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(40,64): warning C4047: 'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'int'
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(40,64): warning C4024: 'strcpy_s': tipos distintos para el parámetro formal y el parámetro real 3
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(131,67): warning C4047: 'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'int'
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(131,67): warning C4024: 'strcpy_s': tipos distintos para el parámetro formal y el parámetro real 3
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(165,68): warning C4047: 'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'int'
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(165,68): warning C4024: 'strcpy_s': tipos distintos para el parámetro formal y el parámetro real 3
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(167,18): warning C4013: 'validarIP' sin definir; se supone que extern devuelve como resultado int
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(183,68): warning C4047: 'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'int'
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(183,68): warning C4024: 'strcpy_s': tipos distintos para el parámetro formal y el parámetro real 3
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(202,68): warning C4047: 'función': 'const char *' es distinto en los niveles de direccionamiento indirecto de 'int'
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\adaptador\adaptador.c(202,68): warning C4024: 'strcpy_s': tipos distintos para el parámetro formal y el parámetro real 3
+  archivo.c
+  entrada.c
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\entrada\entrada.c(14,25): warning C4267: 'función': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\entrada\entrada.c(24,28): warning C4267: 'función': conversión de 'size_t' a 'int'; posible pérdida de datos
+  fecha.c
+  ping.c
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\ping\ping.c(76,103): warning C4020: 'entradaSinRetorno': hay demasiados parámetros reales
+C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\Producto 2\librerias\ping\ping.c(192,9): warning C4013: 'insertarFechaHora' sin definir; se supone que extern devuelve como resultado int
+  MenuPrincipal.c
+  Generando código...
   Producto 2.vcxproj -> C:\Users\Alan\Desktop\VSCode\ComandosPersonalizados\VSC\Producto 2\x64\Debug\Producto 2.exe
