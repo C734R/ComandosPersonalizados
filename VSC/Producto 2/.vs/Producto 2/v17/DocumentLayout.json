@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\adaptador\\adaptador.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|solutionrelative:Producto 2\\librerias\\adaptador\\adaptador.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\MenuPrincipal.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|solutionrelative:Producto 2\\MenuPrincipal.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\entrada\\entrada.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|solutionrelative:Producto 2\\librerias\\entrada\\entrada.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\adaptador\\adaptador.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|solutionrelative:Producto 2\\librerias\\adaptador\\adaptador.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8C0434DF-5F06-4BC0-9FB3-BDD242C8C944}|Producto 2\\Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\entrada\\entrada.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
@@ -46,20 +46,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MenuPrincipal.c",
               "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\MenuPrincipal.c",
               "RelativeDocumentMoniker": "Producto 2\\MenuPrincipal.c",
               "ToolTip": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\MenuPrincipal.c",
               "RelativeToolTip": "Producto 2\\MenuPrincipal.c",
-              "ViewState": "AQIAACoAAAAAAAAAAAAowCQAAAAgAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-04-22T18:58:40.3Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ping.c",
               "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\ping\\ping.c",
               "RelativeDocumentMoniker": "Producto 2\\librerias\\ping\\ping.c",
@@ -67,12 +67,11 @@
               "RelativeToolTip": "Producto 2\\librerias\\ping\\ping.c",
               "ViewState": "AQIAACIAAAAAAAAAAAAlwDIAAABHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-04-22T18:51:56.223Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T18:51:56.223Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "entrada.c",
               "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\entrada\\entrada.c",
               "RelativeDocumentMoniker": "Producto 2\\librerias\\entrada\\entrada.c",
@@ -80,20 +79,20 @@
               "RelativeToolTip": "Producto 2\\librerias\\entrada\\entrada.c",
               "ViewState": "AQIAAAgAAAAAAAAAAAAmwA0AAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-04-22T18:51:56.242Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-22T18:51:56.242Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "adaptador.c",
               "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\adaptador\\adaptador.c",
               "RelativeDocumentMoniker": "Producto 2\\librerias\\adaptador\\adaptador.c",
               "ToolTip": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\VSC\\Producto 2\\Producto 2\\librerias\\adaptador\\adaptador.c",
               "RelativeToolTip": "Producto 2\\librerias\\adaptador\\adaptador.c",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAwwCcAAAA/AAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAqwCcAAAA/AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-04-22T18:51:35.392Z"
+              "WhenOpened": "2024-04-22T18:51:35.392Z",
+              "EditorCaption": ""
             }
           ]
         }

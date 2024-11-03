@@ -1,14 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "librerias/entrada/entrada.h"
-#include "librerias/entrada/entrada.c"
-#include "librerias/fecha/fecha.h"
-#include "librerias/fecha/fecha.c"
-#include "librerias/ping/ping.h"
-#include "librerias/ping/ping.c"
-#include "librerias/adaptador/adaptador.h"
-#include "librerias/adaptador/adaptador.c"
+#include "entrada.h"
+#include "fecha.h"
+#include "ping.h"
+#include "adaptador.h"
 
 // Programa principal
 int main() {
@@ -18,6 +14,7 @@ int main() {
     FILE *archivo = NULL;
     int opcion_int = -1;  // Inicializamos la opción a -1
     char buffer[1024];
+    int tamBuffer = 1024;
     char entradaProcesada[1024];
 
     // Bucle mientras no se seleccione la opción de salir
@@ -34,7 +31,7 @@ int main() {
         printf("Selecciona una opción: ");
 
         // Leer la opción
-        entradaConRetorno(opcion, stdin);
+        entradaConNL(opcion, stdin, sizeof(opcion));
 
         // Convertir la opción a un número
         opcion_int = atoi(opcion);
@@ -42,11 +39,9 @@ int main() {
         // Vaciar entrada
         vaciarEntrada(opcion);
 
-        // Mientras la opción no sea un número y no esté vacía
+        // Mientras la opción no sea un número y no esté vacía registrar error
         while ((opcion_int < 0 || opcion_int > 5)){
-            // Registrar opción inválida
             opcion_int = -1;
-            // Salir del bucle
             break;
         }
 
@@ -80,61 +75,47 @@ int main() {
                 if (abrirArchivo("C:/temp/adaptador.txt", "wt", &archivo)){
                     // Llamamos a la función para mostrar los adaptadores de red, pasando el archivo como parámetro
                     copiarAdaptadorRed(archivo);
-                    // Cerramos el archivo
                     fclose(archivo);
                 }
-                // Salimos del bucle
                 break;
             // Mostrar adaptadores de red y añadir uno diferente
             case 4:
-                // Abrimos el archivo
+                // Si existe el archivo, lo abrimos, mostramos los adaptadores de red,
+                // pedimos seleccionar uno y cerramos el archivo
                 if (abrirArchivo("C:/temp/adaptador.txt", "wt", &archivo)){
-                    // Llamamos a la función para mostrar los adaptadores de red, pasando el archivo como parámetro
                     addAdaptadorRed(archivo);
-                    // Cerramos el archivo
                     fclose(archivo);
                 }
-                // Salimos del bucle
                 break;
             // Vaciar archivo
             case 5:
                 // Solicitamos la ruta del archivo a vaciar
                 printf("Introduce la ruta del archivo que deseas vaciar: ");
-                strcpy(entradaProcesada, entradaSinRetorno(buffer, stdin));
-                // Comprobamos si el fichero indicado existe 
+                strcpy(entradaProcesada, entradaSinNL(buffer, stdin, tamBuffer));
+                // Si no existe el fichero, mostramos error y salimos 
                 if (!existeArchivo(entradaProcesada) && vaciarEntrada(buffer)){
-                    // Si no existe, mostramos un mensaje de error
                     printf("El archivo no existe.\n\n");
-                    // Salimos del bucle
                     break;
                 }
-                // Si el archivo existe
+                // Si el archivo existe, vaciamos el archivo
                 else {
-                    // Vaciamos el archivo
                     vaciarArchivo(entradaProcesada);
                 }
-                // Salimos del bucle
+                // Librerar la memoria
+                free(entradaProcesada);
+                free(buffer);
                 break;
-            // Salir del programa
+            // Salir del programa. Informamos de la salida de la aplicación y esperamos enter.
             case 0:
-                // Informamos de la salida de la aplicación
                 printf("Saliendo de la aplicación...\n");
-                // Esperamos a que el usuario pulse una tecla
-                system("pause");
-                // Salimos del bucle
+                pausaEnter();
                 break;
-            // Opción inválida
+            // Opción inválida. Informamos de que la opción seleccionada no es válida
             default:
-                // Informamos de que la opción seleccionada no es válida
                 printf("Opción inválida. Por favor, seleccionz una opción válida.\n\n");
-                // Salimos del bucle
-                break;
         }
     } 
     while (opcion_int != 0);
 
     return 0;
 }
-
-
-

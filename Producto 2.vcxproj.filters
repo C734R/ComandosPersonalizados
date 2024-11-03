@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="adaptador.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="archivo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entrada.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fecha.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPrincipal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ping.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsc\producto 2\producto 2\MenuPrincipal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsc\producto 2\producto 2\librerias\adaptador\adaptador.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsc\producto 2\producto 2\librerias\archivo\archivo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsc\producto 2\producto 2\librerias\entrada\entrada.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsc\producto 2\producto 2\librerias\fecha\fecha.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vsc\producto 2\producto 2\librerias\ping\ping.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="adaptador.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="archivo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entrada.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fecha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vsc\producto 2\producto 2\librerias\adaptador\adaptador.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vsc\producto 2\producto 2\librerias\archivo\archivo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vsc\producto 2\producto 2\librerias\entrada\entrada.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vsc\producto 2\producto 2\librerias\fecha\fecha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vsc\producto 2\producto 2\librerias\ping\ping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

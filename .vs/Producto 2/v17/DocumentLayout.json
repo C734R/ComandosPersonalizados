@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\ping.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|solutionrelative:ping.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\MenuPrincipal.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|solutionrelative:MenuPrincipal.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\entrada.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|solutionrelative:entrada.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\entrada.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A087E7C5-AA30-4282-92A8-03033D52154C}|Producto 2.vcxproj|solutionrelative:entrada.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ping.c",
+              "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\ping.c",
+              "RelativeDocumentMoniker": "ping.c",
+              "ToolTip": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\ping.c",
+              "RelativeToolTip": "ping.c",
+              "ViewState": "AQIAAFYAAAAAAAAAAAAwwHUAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-03T16:51:39.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "entrada.c",
+              "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\entrada.c",
+              "RelativeDocumentMoniker": "entrada.c",
+              "ToolTip": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\entrada.c",
+              "RelativeToolTip": "entrada.c",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-03T16:12:13.516Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "entrada.h",
+              "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\entrada.h",
+              "RelativeDocumentMoniker": "entrada.h",
+              "ToolTip": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\entrada.h",
+              "RelativeToolTip": "entrada.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-03T16:11:45.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MenuPrincipal.c",
+              "DocumentMoniker": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\MenuPrincipal.c",
+              "RelativeDocumentMoniker": "MenuPrincipal.c",
+              "ToolTip": "C:\\Users\\Alan\\Desktop\\VSCode\\ComandosPersonalizados\\MenuPrincipal.c",
+              "RelativeToolTip": "MenuPrincipal.c",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAmwEEAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-03T16:02:32.842Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
